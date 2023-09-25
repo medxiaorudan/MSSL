@@ -38,7 +38,6 @@ class ScaleNRotate(object):
 
         #for elem in sample.keys():
         elem = 'image'
-
         tmp = sample[elem]
 
         h, w = tmp.shape[:2]
@@ -48,7 +47,7 @@ class ScaleNRotate(object):
         if self.flagvals is None:
             if ((tmp == 0) | (tmp == 1)).all():
                 flagval = cv2.INTER_NEAREST
-            elif 'gt' in elem and self.SSL:
+            elif 'gt' in elem and self.semseg:
                 flagval = cv2.INTER_NEAREST
             else:
                 flagval = cv2.INTER_CUBIC
@@ -82,15 +81,10 @@ class FixedResize(object):
         resolutions (dict): the list of resolutions
     """
     def __init__(self, resolutions=None, flagvals=None):
+        print("====================start1")
         self.resolutions = resolutions
-        
-        if resolutions is not None and "SSL_S" in resolutions:
-            self.resolutions['SSL'] = resolutions['SSL_S']
         self.flagvals = flagvals
-        if flagvals is not None and "SSL_S" in flagvals:
-            self.flagvals['SSL'] = flagvals['SSL_S']
-        if self.flagvals is not None:
-            assert(len(self.resolutions) == len(self.flagvals))
+        assert(len(self.resolutions) == len(self.flagvals))
 
     def __call__(self, sample):
 
@@ -99,10 +93,12 @@ class FixedResize(object):
             return sample
 #        print("resolutions:",self.resolutions)
         elems = list(sample.keys())
+#        print("elems:",elems)
         for elem in elems:
             if 'meta' in elem or 'bbox' in elem:
                 continue
-            if elem =='image' or elem=="SSL_S":
+            if elem =='image':
+#                if elem in self.resolutions:
                 if self.resolutions[elem] is None:
                     continue
                 if isinstance(sample[elem], list):
@@ -125,7 +121,6 @@ class FixedResize(object):
 
             else:
                 continue
-
         return sample
 
     def __str__(self):
@@ -164,7 +159,7 @@ class FixedResizeRatio(object):
 
 class RandomHorizontalFlip(object):
     """Horizontally flip the given image and ground truth randomly with a probability of 0.5."""
-       
+
     def __call__(self, sample):
 
         if random.random() < 0.5:
@@ -275,10 +270,12 @@ class ToTensor(object):
         
             tmp = sample[elem]
             
-            if elem == 'image' or  elem == "SSL":
+            if elem == 'image':
+
                 sample[elem] = self.to_tensor(tmp.astype(np.uint8)) # Between 0 .. 255 so cast as uint8 to ensure compatible w/ imagenet weight
             else:
                 continue
+
         return sample
 
     def __str__(self):
@@ -292,7 +289,9 @@ class Normalize(object):
         self.normalize = torchvision.transforms.Normalize(self.mean, self.std)
 
     def __call__(self, sample):
+
         sample['image'] = self.normalize(sample['image'])  
+
         return sample
 
     def __str__(self):
