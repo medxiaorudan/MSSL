@@ -1,22 +1,20 @@
 # Setup
-setup: single_task
+setup: multi_task
 
 # Database
-train_db_name: RCCContext_classify
-val_db_name: RCCContext_classify
+train_db_name: RCCContext
+val_db_name: RCCContext
+test_db_name: RCCContext
 trBatch: 8
 valBatch: 1
 labeled_bs: 4
 nworkers: 0
 
-# Optimizer and scheduler
-epochs: 60
-optimizer: sgd
+epochs: 100
+optimizer: adam
 optimizer_kwargs:
-   lr: 0.01
+   lr: 0.0001
    weight_decay: 0.0001
-   momentum: 0.9
-   nesterov: False
 scheduler: poly
 
 # Model
@@ -29,7 +27,7 @@ head: hrnet
 
 # Tasks
 task_dictionary:
-   include_classify: True
+   include_SSL: True
 
 # Eval only final 10 epochs for speed-up
 eval_final_10_epochs_only: False
