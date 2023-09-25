@@ -5,18 +5,19 @@ import numpy as np
 import sys
 import torch
 
-from utils.config import create_config
-from utils.common_config import get_train_dataset, get_transformations, \
-                                get_val_dataset, get_train_dataloader, get_val_dataloader,\
+from utils.config_SSL_30 import create_config
+from utils.common_config import get_transformations,\
+                                get_val_dataset, get_train_supervise_dataloader, get_val_dataloader, get_train_supervise_dataset,\
                                 get_optimizer, get_model, adjust_learning_rate,\
                                 get_criterion_rudan
 from utils.logger import Logger
-from train.train_utils import train_vanilla
-from evaluation.evaluate_utils import eval_model, validate_results, save_model_predictions, \
+from train.train_utils_supervise import train_vanilla
+from evaluation.evaluate_utils_SSL import eval_model, validate_results, save_model_predictions, \
                                     eval_all_results
 from termcolor import colored
 from torchvision import models
 from torchsummary import summary
+
 # Parser
 parser = argparse.ArgumentParser(description='Vanilla Training')
 parser.add_argument('--config_env',
@@ -24,8 +25,6 @@ parser.add_argument('--config_env',
 parser.add_argument('--config_exp',
                     help='Config file for the experiment')
 args = parser.parse_args()
-
-#device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def main():
     # Retrieve config file
@@ -36,15 +35,10 @@ def main():
 
     # Get model
     print(colored('Retrieve model', 'blue'))
-#    print("###################################")
-#    print(p['TASKS']['NAMES'])
-#    print("###################################")
+
     model = get_model(p)
-        
-    #ema_model = get_model(p)
     
     model = torch.nn.DataParallel(model)
-#    model = torch.nn.DataParallel(model, device_ids=range(torch.cuda.device_count()))
     model = model.cuda()
     summary(model,(3, 512,512))
     # Get criterion
@@ -61,44 +55,31 @@ def main():
     # Optimizer
     print(colored('Retrieve optimizer', 'blue'))
     optimizer = get_optimizer(p, model)
-    print(optimizer)
 
     # Dataset
     print(colored('Retrieve dataset', 'blue'))
     
     # Transforms 
     train_transforms, val_transforms = get_transformations(p)
-    train_dataset = get_train_dataset(p, train_transforms)
+    train_dataset = get_train_supervise_dataset(p, train_transforms)
+    
     val_dataset = get_val_dataset(p, val_transforms)
-#    true_val_dataset = get_val_dataset(p, None) # True validation dataset without reshape 
-#    val_classify_dataset = get_val_classify_dataset(p, val_transforms)
-#    train_classify_dataset = get_train_classify_dataset(p, train_transforms)
-    train_dataloader = get_train_dataloader(p, train_dataset,"SSL_S")
-#    train_classify_dataloader = get_train_classify_dataloader(p, train_classify_dataset)
+
+    train_dataloader = get_train_supervise_dataloader(p, train_dataset)
     val_dataloader = get_val_dataloader(p, val_dataset)
-#    val_classify_dataloader = get_val_classify_dataloader(p, val_classify_dataset)
+
     print('Train samples %d - Val samples %d' %(len(train_dataset), len(val_dataset)))
     print('Train transformations:')
     print(train_transforms)
     print('Val transformations:')
     print(val_transforms)
-    
-    # Resume from checkpoint
-#    if os.path.exists(p['checkpoint']):
-#        print(colored('Restart from checkpoint {}'.format(p['checkpoint']), 'blue'))
-#        checkpoint = torch.load(p['checkpoint'], map_location='cpu')
-#        optimizer.load_state_dict(checkpoint['optimizer'])
-#        model.load_state_dict(checkpoint['model'])
-#        start_epoch = checkpoint['epoch']
-#        best_result = checkpoint['best_result']
-##
-#    else:
+
     print(colored('No checkpoint file at {}'.format(p['checkpoint']), 'blue'))
     start_epoch = 0
     save_model_predictions(p, val_dataloader, model)
     best_result = eval_all_results(p)
 #    best_result = 0
-    
+#    
     start_epoch = 0
     # Main loop
     print(colored('Starting main loop', 'blue'))
@@ -107,15 +88,13 @@ def main():
         print(colored('Epoch %d/%d' %(epoch+1, p['epochs']), 'yellow'))
         print(colored('-'*10, 'yellow'))
 
-#        print(p)
         # Adjust lr
         lr = adjust_learning_rate(p, optimizer, epoch)
         print('Adjusted learning rate to {:.5f}'.format(lr))
 
         # Train 
         print('Train ...')
-        
-#        print("criterion:", criterion)
+
         
         eval_train = train_vanilla(p, train_dataloader, model, None, criterion, optimizer, epoch)
         
@@ -132,9 +111,9 @@ def main():
         # Perform evaluation
         if eval_bool:
             print('Evaluate ...')
-            save_model_predictions(p, val_dataloader,model)
+            save_model_predictions(p, val_dataloader, model)
             curr_result = eval_all_results(p)
-            improves, best_result = validate_results(p, curr_result, best_result, task="SSL_S")
+            improves, best_result = validate_results(p, curr_result, best_result, "SSL_S")
             if improves:
                 print('Save new best model')
                 torch.save(model.state_dict(), p['best_model'])
