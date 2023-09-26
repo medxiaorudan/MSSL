@@ -11,15 +11,20 @@
 
 ## The proposed evaluation method
 
-We proposed a new evaluation function to restrict the results in terms of vessel detection, basically considering the length but not the width of vessels. We dilated (with a disk of radius 3, according to experiment Table `tab2`) the segmentation result from `S` to obtain `DS` and the ground truth `GT` to obtain `DGT`. We computed the ratio of miss-detected vessels as:
-、、、
-MV = |{(i,j): GT(i,j) = 1, DS(i,j) = 0}| / |{(i,j): GT(i,j) = 1}|
-、、、
+We proposed a new evaluation function to restrict the results in terms of vessel detection, basically considering the length but not the width of vessels. We dilated (with a disk of radius 3, according to experiment Table `tab2`) the segmentation result from \( S \) to obtain \( DS \) and the ground truth \( GT \) to obtain \( DGT \). We computed the ratio of miss-detected vessels as:
+
+$$
+MV = \frac{|\{(i,j): GT(i,j) = 1, DS(i,j) = 0\}|}{|\{(i,j): GT(i,j) = 1\}|}
+$$
 
 and the ratio of falsely detected vessels as:
 
-FV = |{(i,j): S(i,j) = 1, DGT(i,j) = 0}| / |{(i,j): S(i,j) = 1}|
+$$
+FV = \frac{|\{(i,j): S(i,j) = 1, DGT(i,j) = 0\}|}{|\{(i,j): S(i,j) = 1\}|}
+$$
 
 Finally, we defined the following global performance index:
 
-IV = 1 - (MV+VF)/2
+$$
+IV = 1 - \frac{MV+VF}{2}
+$$
