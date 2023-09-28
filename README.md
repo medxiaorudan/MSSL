@@ -23,6 +23,26 @@ conda create -n MSSL python=3.8
 conda activate MSSL
 pip install -r requirements.txt
 ```
+## Setup 
+The following files need to be adapted in order to run the code on your own machine:
+- Change the file paths to the datasets in `utils/mypath.py`, e.g. `/path/to/RCC/`.
+- Specify the output directory in `configs/your_env.yml`. All results will be stored under this directory.
+- Please download the pre-trained weights [here](https://github.com/HRNet/HRNet-Image-Classification) for the HRNet backbone. 
+The provided config files use an HRNet-18 backbone. Download the `hrnet_w18_small_model_v2.pth` and save it to the directory `./models/pretrained_models/`.
+
+## Training
+The configuration files to train the model can be found in the `configs/` directory. The model can be trained by running the following command:
+
+```shell
+python main.py --config_env configs/env.yml --config_exp configs/$DATASET/$MODEL.yml
+```
+
+## Evaluation
+We evaluate the best model at the end of training. The evaluation criterion is based on Equation 10 from our survey paper and requires to pre-train a set of single-tasking networks beforehand. To speed-up training, it is possible to evaluate the model only during the final 10 epochs by adding the following line to your config file:
+
+```python
+eval_final_10_epochs_only: True
+```
 
 ## Citation
 If you find this repo useful for your research, please consider citing the following works:
