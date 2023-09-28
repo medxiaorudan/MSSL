@@ -4,11 +4,11 @@
 run_train_files() {
     for file in "$@"; do
         case $file in
-            "main_SSL_multi") python main_SSL_multi.py ;;
-            "main_SSL_single") python main_SSL_single.py ;;
-            "main_classify_single") python main_classify_single.py ;;
-            "main_supervise_multi") python main_supervise_multi.py ;;
-            "main_supervise_seg_single") python main_supervise_seg_single.py ;;
+            "main_SSL_multi") python main_SSL_multi.py --config_env configs/env_SSL_multi.yml --config_exp configs/RCC/hrnet18/multi_task_baseline.yml;;
+            "main_SSL_single") python main_SSL_single.py  --config_env configs/env_SSL_SSL.yml --config_exp configs/RCC/hrnet18/SSL_SSL.yml;;
+            "main_classify_single") python main_classify_single.py  --config_env configs/env_classify.yml --config_exp configs/RCC/hrnet18/classify.yml;;
+            "main_supervise_multi") python main_supervise_multi.py  --config_env configs/env_supervise_multi.yml --config_exp configs/RCC/hrnet18/multi_task_baseline.yml ;;
+            "main_supervise_seg_single") python main_supervise_seg_single.py  --config_env configs/env_supervise.yml --config_exp configs/RCC/hrnet18/SSL.yml;;
             *) echo "Unknown training file: $file" ;;
         esac
     done
@@ -18,11 +18,11 @@ run_train_files() {
 run_test_files() {
     for file in "$@"; do
         case $file in
-            "test_SSL_multi") python test_SSL_multi.py ;;
-            "test_SSL_single") python test_SSL_single.py ;;
-            "test_classify_single") python test_classify_single.py ;;
-            "test_supervise_multi") python test_supervise_multi.py ;;
-            "test_supervise_seg_single") python test_supervise_seg_single.py ;;
+            "test_SSL_multi") python test_SSL_multi.py --config_env configs/env_SSL_multi.yml --config_exp configs/RCC/hrnet18/multi_task_baseline.yml;;
+            "test_SSL_single") python test_SSL_single.py --config_env configs/env_SSL_SSL.yml --config_exp configs/RCC/hrnet18/SSL_SSL.yml;;
+            "test_classify_single") python test_classify_single.py --config_env configs/env_classify.yml --config_exp configs/RCC/hrnet18/classify.yml ;;
+            "test_supervise_multi") python test_supervise_multi.py --config_env configs/env_supervise_multi.yml --config_exp configs/RCC/hrnet18/multi_task_baseline.yml;;
+            "test_supervise_seg_single") python test_supervise_seg_single.py  --config_env configs/env_supervise.yml --config_exp configs/RCC/hrnet18/SSL.yml;;
             *) echo "Unknown testing file: $file" ;;
         esac
     done
