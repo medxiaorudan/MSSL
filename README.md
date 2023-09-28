@@ -8,5 +8,4 @@ cd MSSL
 conda create -n MSSL python=3.8
 conda activate MSSL
 pip install -r requirements.txt
-pip install git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
 ```
