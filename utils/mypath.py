@@ -20,7 +20,3 @@ class MyPath(object):
         
         else:
             raise NotImplementedError
-
-    @staticmethod
-    def seism_root():
-        return '/data/morpheme/user/rxiao/MIDL/deep_learning/Multi-task/evaluation/seism/'
