@@ -6,11 +6,11 @@
 <be>
 
 ## Introduction
+This is a PyTorch implementation of the paper Multi-task Semi-supervised Learning for Vascular Network Segmentation and Renal Cell Carcinoma Classification.
+
 <center>
 <img src="https://github.com/medxiaorudan/MSSL/blob/main/images/model.png" width="700" > 
 </center>
-
-This is a PyTorch implementation of the paper Multi-task Semi-supervised Learning for Vascular Network Segmentation and Renal Cell Carcinoma Classification.
 
 We propose an end-to-end MTL-SSL model performing joint SSL segmentation and classification tasks to segment the vascular network using both labeled and unlabeled data, which is robust and outperforms other popular SSL and supervised learning methods.   
 
