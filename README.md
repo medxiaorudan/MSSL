@@ -38,7 +38,7 @@ python main.py --config_env configs/env.yml --config_exp configs/$DATASET/$MODEL
 ```
 
 ## Evaluation
-The code for post-precessing and evaluation details can be found in [Post-seg processing and evaluation](https://github.com/medxiaorudan/RCC-MSSL/blob/main/Post-seg processing and evaluation/).
+The code for post-precessing and evaluation details can be found in [Post-seg processing and evaluation](https://github.com/medxiaorudan/RCC-MSSL/blob/main/Post-seg_processing_and_evaluation).
 
 ```python
 eval_final_10_epochs_only: True
