@@ -1,5 +1,5 @@
-# MSSL
-
+# MSSL: Multi-task Semi-supervised Learning for Vascular Network Segmentation and Renal Cell Carcinoma Classification (REMIA 2022)
+**Best Poster Award**
 ## Installation
 An example of installation is shown below:
 ```
