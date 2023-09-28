@@ -1,5 +1,16 @@
 # MSSL: Multi-task Semi-supervised Learning for Vascular Network Segmentation and Renal Cell Carcinoma Classification (REMIA 2022)
-**Best Poster Award**
+***Best Poster Award***
+<a href="https://link.springer.com/chapter/10.1007/978-3-031-16876-5_1"><img src="https://img.shields.io/badge/link.springer-10.1007-%23B31B1B"></a>
+<a href="https://drive.google.com/file/d/1p42CPRfAgPPuY7_HrS-zVKJeXI88G0jS/view?usp=drive_link"><img src="https://img.shields.io/badge/Poster%20-online-brightgreen"></a>
+<a href="https://drive.google.com/file/d/1q-uq_tS11zYJ84V2qT_-MDjccnh7lFmA/view?usp=drive_link"><img src="https://img.shields.io/badge/Presentation%20-online-brightgreen"></a>
+<br>
+
+<center>
+<img src="https://github.com/medxiaorudan/MSSL/blob/main/images/model.png" width="700" > 
+</center>
+
+This is a PyTorch implementation of the paper Multi-task Semi-supervised Learning for Vascular Network Segmentation and Renal Cell Carcinoma Classification.
+
 ## Installation
 An example of installation is shown below:
 ```
