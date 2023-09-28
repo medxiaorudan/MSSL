@@ -47,8 +47,9 @@ chmod +x script/Script.sh
 ## Evaluation
 The code for post-precessing and evaluation details can be found in [Post-seg processing and evaluation](https://github.com/medxiaorudan/RCC-MSSL/blob/main/Post-seg_processing_and_evaluation).
 
-```python
-eval_final_10_epochs_only: True
+```
+matlab -r "run('Post-seg_processing_and_evaluation/predict_clean_smooth.m')"
+matlab -r "run('Post-seg_processing_and_evaluation/Xavier_evaluation.m')"
 ```
 
 ## Citation
