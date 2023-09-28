@@ -32,9 +32,16 @@ The provided config files use an HRNet-18 backbone. Download the `hrnet_w18_smal
 
 ## Training
 The configuration files to train the model can be found in the `configs/` directory. The model can be trained by running the following command:
-
-```shell
+If want run every model separately
+```
 python main.py --config_env configs/env.yml --config_exp configs/$DATASET/$MODEL.yml
+```
+
+If want batch running models
+```
+chmod +x script/Script.sh
+./script/Script.sh train main_SSL_multi main_SSL_single
+./script/Script.sh test test_SSL_multi test_SSL_single
 ```
 
 ## Evaluation
