@@ -31,7 +31,7 @@ The following files need to be adapted in order to run the code on your own mach
 The provided config files use an HRNet-18 backbone. Download the `hrnet_w18_small_model_v2.pth` and save it to the directory `./models/pretrained_models/`.
 
 ## Training
-The configuration files to train the model can be found in the `configs/` directory. The model can be trained by running the following command:
+The configuration files to train the model can be found in the `configs/` directory. The model can be trained by running the following command:\
 If you want run every model separately
 ```
 python main.py --config_env configs/env.yml --config_exp configs/$DATASET/$MODEL.yml
