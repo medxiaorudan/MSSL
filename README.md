@@ -38,7 +38,7 @@ python main.py --config_env configs/env.yml --config_exp configs/$DATASET/$MODEL
 ```
 
 ## Evaluation
-We evaluate the best model at the end of training. The evaluation criterion is based on Equation 10 from our survey paper and requires to pre-train a set of single-tasking networks beforehand. To speed-up training, it is possible to evaluate the model only during the final 10 epochs by adding the following line to your config file:
+The code for post-precessing and evaluation details can be found in [Post-seg processing and evaluation](https://github.com/medxiaorudan/RCC-MSSL/blob/main/Post-seg processing and evaluation/).
 
 ```python
 eval_final_10_epochs_only: True
